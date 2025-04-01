@@ -2,6 +2,7 @@ from app.core.config import settings
 from langchain_openai import OpenAIEmbeddings
 from langchain_ollama import OllamaEmbeddings
 from langchain_community.embeddings import DashScopeEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 # If you plan on adding other embeddings, import them here
 # from some_other_module import AnotherEmbeddingClass
 
@@ -30,6 +31,11 @@ class EmbeddingsFactory:
             return OllamaEmbeddings(
                 model=settings.OLLAMA_EMBEDDINGS_MODEL,
                 base_url=settings.OLLAMA_API_BASE
+            )
+
+        elif embeddings_provider == "huggingface":
+            return HuggingFaceEmbeddings(
+                model_name=settings.HUGGINGFACE_EMBEDDINGS_MODEL
             )
 
         # Extend with other providers:

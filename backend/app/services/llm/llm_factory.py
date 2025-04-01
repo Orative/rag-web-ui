@@ -3,6 +3,7 @@ from langchain_core.language_models import BaseChatModel
 from langchain_openai import ChatOpenAI
 from langchain_deepseek import ChatDeepSeek
 from langchain_ollama import OllamaLLM
+from langchain_groq import ChatGroq
 from app.core.config import settings
 
 class LLMFactory:
@@ -39,6 +40,14 @@ class LLMFactory:
             return OllamaLLM(
                 model=settings.OLLAMA_MODEL,
                 base_url=settings.OLLAMA_API_BASE,
+                temperature=temperature,
+                streaming=streaming
+            )
+        elif provider.lower() == "groq":
+            # Initialize Groq model
+            return ChatGroq(
+                model=settings.GROQ_MODEL,
+                api_key=settings.GROQ_API_KEY,
                 temperature=temperature,
                 streaming=streaming
             )

@@ -52,6 +52,9 @@ class Settings(BaseSettings):
     # DashScope settings
     DASH_SCOPE_API_KEY: str = os.getenv("DASH_SCOPE_API_KEY", "")
     DASH_SCOPE_EMBEDDINGS_MODEL: str = os.getenv("DASH_SCOPE_EMBEDDINGS_MODEL", "")
+    
+    # HuggingFace settings
+    HUGGINGFACE_EMBEDDINGS_MODEL: str = os.getenv("HUGGINGFACE_EMBEDDINGS_MODEL", "")
 
     # Vector Store settings
     VECTOR_STORE_TYPE: str = os.getenv("VECTOR_STORE_TYPE", "chroma")
@@ -75,6 +78,17 @@ class Settings(BaseSettings):
     OLLAMA_EMBEDDINGS_MODEL: str = os.getenv(
         "OLLAMA_EMBEDDINGS_MODEL", "nomic-embed-text"
     )  # Added this line
+
+    # Groq settings
+    GROQ_MODEL: str = os.getenv("GROQ_MODEL", "")
+    GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
+
+    # Add Langsmith tracing
+    LANGCHAIN_TRACING_V2: bool = os.getenv("LANGCHAIN_TRACING_V2", "true").lower() == "true"
+    LANGCHAIN_ENDPOINT: str = "https://api.smith.langchain.com"
+    LANGCHAIN_API_KEY: str = os.getenv("LANGCHAIN_API_KEY", "")
+
+
 
     class Config:
         env_file = ".env"

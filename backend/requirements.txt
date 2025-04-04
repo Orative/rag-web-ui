@@ -28,3 +28,4 @@ langchain-ollama==0.2.3
 docx2txt==0.8
 langchain-huggingface==0.1.2
 langchain-groq==0.3.1
+prometheus-fastapi-instrumentator

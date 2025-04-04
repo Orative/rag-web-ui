@@ -6,6 +6,7 @@ from app.core.config import settings
 from app.core.minio import init_minio
 from app.startup.migarate import DatabaseMigrator
 from fastapi import FastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
 
 logging.basicConfig(
     level=logging.INFO,
@@ -43,3 +44,5 @@ async def health_check():
         "status": "healthy",
         "version": settings.VERSION,
     }
+
+Instrumentator().instrument(app).expose(app, '/metrics')

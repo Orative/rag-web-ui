@@ -1,6 +1,9 @@
 services:
   backend:
+    container_name: backend
     build: ./backend
+    ports:
+      - 8000:8000
     env_file:
       - .env
     volumes:
@@ -21,6 +24,32 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
+  
+  prometheus:
+    image: prom/prometheus
+    restart: unless-stopped
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./backend/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - app_network
+
+  grafana:
+    image: grafana/grafana
+    restart: unless-stopped
+    container_name: grafana
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - ./backend/grafana/provisioning:/etc/grafana/provisioning
+    env_file:
+      - ./backend/grafana/config.monitoring
+    networks:
+      - app_network
 
   frontend:
     build: ./frontend
@@ -32,13 +61,13 @@ services:
 
   db:
     image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
+    command: --default-authentication-plugin=caching_sha2_password
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=ragwebui
       - MYSQL_USER=ragwebui
       - MYSQL_PASSWORD=ragwebui
-      - TZ=Asia/Shanghai
+      - TZ=Asia/Singapore
     ports:
       - "3306:3306"
     volumes:

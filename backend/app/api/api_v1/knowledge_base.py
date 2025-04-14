@@ -189,7 +189,7 @@ async def delete_knowledge_base(
         
         # 2. Clean up vector store
         try:
-            vector_store._store.delete_collection(f"kb_{kb_id}")
+            vector_store._store.delete_collection()
             logger.info(f"Cleaned up vector store for knowledge base {kb_id}")
         except Exception as e:
             cleanup_errors.append(f"Failed to clean up vector store: {str(e)}")
